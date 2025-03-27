@@ -3,6 +3,7 @@ services:
   - type: web
     name: subdro-api
     env: node
+    plan: free
     rootDir: server
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -20,12 +21,13 @@ services:
     autoDeploy: true
 
   # Frontend static site
-  - type: web
+  - type: static
     name: subdro-client
     env: static
+    plan: free
     rootDir: client
     buildCommand: npm install && npm run build
-    staticPublishPath: ./build
+    staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
         fromService:
@@ -33,6 +35,10 @@ services:
           type: web
           property: url
     autoDeploy: true
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
     routes:
       - type: rewrite
         source: /*
