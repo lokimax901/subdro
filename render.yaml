@@ -1,0 +1,39 @@
+services:
+  # Backend API service
+  - type: web
+    name: subdro-api
+    env: node
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+    autoDeploy: true
+
+  # Frontend static site
+  - type: web
+    name: subdro-client
+    env: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          name: subdro-api
+          type: web
+          property: url
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html 
