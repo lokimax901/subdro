@@ -31,3 +31,4 @@
     "typescript": "^5.8.2"
   }
 }
+    "cors": "^2.8.5",\n    "express": "^4.19.2",\n    "jsonwebtoken": "^9.0.2",\n    "typescript": "^5.4.5"\n  }\n}
